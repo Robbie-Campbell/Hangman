@@ -35,7 +35,8 @@ while lives_left > 0:
             lives_left -= 1
             print("Wrong!!!")
             print("You only have " + str(lives_left) + " lives left!")
+        elif not scoreboard.__contains__("_"):
+            print("Congratulations! You won the game!")
+            break
     if lives_left == 0:
         print("Game over! Better luck next time! The word was: " + hangman_word)
-    elif scoreboard == hangman_word:
-        print("Congratulations! You won the game!")
