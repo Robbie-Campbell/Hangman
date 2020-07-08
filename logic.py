@@ -11,7 +11,7 @@ class Logic:
     def __init__(self, guess):
         self.guess = guess
         self.hangman_word = words[randint(1, 200)]
-        self.lives_left = 6
+        self.lives_left = 7
         self.scoreboard = []
         self.correct_letters = []
         self.selected_letters = ""
@@ -30,7 +30,6 @@ class Logic:
             else:
                 self.selected_letters += self.guess + " "
                 for index, values in enumerate(self.correct_letters):
-                    index += 1
                     if values == guess:
                         self.scoreboard[index - 1] = self.guess
 

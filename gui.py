@@ -46,12 +46,18 @@ def main():
                 running = False
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
-                    for letter in game_loop.correct_letters:
-                        input
-                        if letter == input_box.text:
-                            game_loop.lives_left -= 1
-                            hangman.current += 1
-                            break
+                    for index, values in enumerate(game_loop.correct_letters):
+                        print(values)
+                        print(game_loop.correct_letters)
+                        if input_box.guess[index].__contains__(values):
+                            game_loop.scoreboard[index] = values
+                        else:
+                            if game_loop.lives_left > 1:
+                                game_loop.lives_left -= 1
+                                hangman.current += 1
+                            else:
+                                game_loop.lives_left = 0
+                                print(input_box.text)
         input_box.update()
         input_box.draw(window)
         text = font.render(str(game_loop.lives_left), True, (255, 255, 255))
