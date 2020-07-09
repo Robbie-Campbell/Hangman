@@ -11,7 +11,7 @@ class Logic:
     def __init__(self, guess):
         self.guess = guess
         self.hangman_word = words[randint(1, 200)]
-        self.lives_left = 7
+        self.lives_left = 6
         self.scoreboard = []
         self.correct_letters = []
         self.selected_letters = ""
