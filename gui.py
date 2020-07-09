@@ -25,6 +25,18 @@ class Hangman(object):
         self.current = 0
 
 
+def listToString(s):
+    # initialize an empty string
+    str1 = ""
+
+    # traverse in the string
+    for ele in s:
+        str1 += ele + " "
+
+        # return string
+    return str1
+
+
 hangman = Hangman(700, 150)
 clock = pygame.time.Clock()
 textinput = InputBox(100, 100, 140, 32)
@@ -36,6 +48,8 @@ def main():
     global letter
     running = True
     input_box = InputBox(100, 100, 140, 32)
+    print(game_loop.hangman_word)
+    win_condition = "You have " + str(game_loop.lives_left) + " lives left."
     while running:
         window.blit(bg, (0, 0))
         font = pygame.font.SysFont("comicsans", 45)
@@ -47,21 +61,22 @@ def main():
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
                     for index, values in enumerate(game_loop.correct_letters):
-                        print(values)
-                        print(game_loop.correct_letters)
-                        if input_box.guess[index].__contains__(values):
-                            game_loop.scoreboard[index] = values
+                        win_condition = "You have " + str(game_loop.lives_left) + " lives left."
+                        if listToString(game_loop.scoreboard) == game_loop.hangman_word:
+                            win_condition = "Congratulations, you won the game!"
+                        elif input_box.guess.__contains__(values):
+                            game_loop.scoreboard[index] = values + " "
                         else:
                             if game_loop.lives_left > 1:
                                 game_loop.lives_left -= 1
                                 hangman.current += 1
                             else:
                                 game_loop.lives_left = 0
-                                print(input_box.text)
+                                win_condition = "You Lose! the word was: " + game_loop.hangman_word
         input_box.update()
         input_box.draw(window)
-        text = font.render(str(game_loop.lives_left), True, (255, 255, 255))
-        letters = font.render(str(game_loop.scoreboard), True, (255, 255, 255))
+        text = font.render(win_condition, True, (255, 255, 255))
+        letters = font.render(listToString(game_loop.scoreboard), True, (255, 255, 255))
         window.blit(letters, (100, 300))
         window.blit(text, (100, 500))
         pygame.display.update()
