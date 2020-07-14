@@ -62,19 +62,20 @@ def main():
                 if event.key == K_ESCAPE:
                     running = False
                 if event.key == K_RETURN:
-                    deduction = 1
+                    deduction = 0
                     for index, values in enumerate(game_loop.correct_letters):
                         win_condition = "You have " + str(game_loop.lives_left) + " lives left."
                         if not game_loop.scoreboard.__contains__("_"):
                             win_condition = "Congratulations, you won the game!"
                         if input_box.guess.__contains__(values):
                             game_loop.scoreboard[index] = values + " "
+                            deduction += 1
                         elif game_loop.lives_left == 0:
                             win_condition = "You Lose! the word was: " + game_loop.hangman_word
-                        if not input_box.guess.__contains__(values):
-                            game_loop.lives_left -= deduction
-                            hangman.current += deduction
-                            deduction = 0
+                        if len(game_loop.scoreboard) == len(game_loop.correct_letters) - deduction:
+                            print((len(game_loop.correct_letters) - deduction))
+                            game_loop.lives_left -= 1
+                            hangman.current += 1
 
         input_box.update()
         input_box.draw(window)
