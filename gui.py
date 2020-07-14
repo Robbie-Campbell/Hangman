@@ -59,21 +59,22 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
                 if event.key == K_RETURN:
-                    deduction = True
+                    deduction = 1
                     for index, values in enumerate(game_loop.correct_letters):
                         win_condition = "You have " + str(game_loop.lives_left) + " lives left."
-                        if game_loop.lives_left == 0:
-                            win_condition = "You Lose! the word was: " + game_loop.hangman_word
-                            input_box.color = None
-                        if listToString(game_loop.scoreboard) == game_loop.hangman_word:
+                        if not game_loop.scoreboard.__contains__("_"):
                             win_condition = "Congratulations, you won the game!"
-                        elif input_box.guess.__contains__(values):
+                        if input_box.guess.__contains__(values):
                             game_loop.scoreboard[index] = values + " "
-                        elif deduction:
-                            game_loop.lives_left -= 1
-                            hangman.current += 1
-                            deduction = False
+                        elif game_loop.lives_left == 0:
+                            win_condition = "You Lose! the word was: " + game_loop.hangman_word
+                        if not input_box.guess.__contains__(values):
+                            game_loop.lives_left -= deduction
+                            hangman.current += deduction
+                            deduction = 0
 
         input_box.update()
         input_box.draw(window)
